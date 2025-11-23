@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mental Edge Trading – Podcast Episodes</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <header class="site-header">
+      <nav class="nav">
+        <div class="nav-inner">
+          <a href="index.html" class="nav-logo">
+            <img src="assets/img/MET-Logo.png" />
+            <span class="nav-logo-text">Mental Edge Trading</span>
+          </a>
+
+          <button class="nav-toggle" id="navToggle">
+            <span></span><span></span><span></span>
+          </button>
+
+          <ul class="nav-links" id="navLinks">
+            <li><a href="podcast.html">Podcast</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="book.html">Book & Workbook</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="admin_login.html" class="login-btn"><i class="fas fa-lock"></i> Admin Login</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- PAGE HEADER -->
+      <section class="section page-hero reveal">
+        <div class="section-header">
+          <h2>Podcast Episodes</h2>
+          <p>
+            The Mental Edge Trading Podcast — weekly trading psychology tools,
+            mindset frameworks, and emotional discipline for retail & funded
+            traders.
+          </p>
+        </div>
+      </section>
+
+      <!-- FEATURED / LATEST EPISODE -->
+      <section class="section reveal">
+        <div style="max-width:1120px;margin:0 auto;">
+          <h2 style="margin-bottom:16px;">Latest Episode</h2>
+
+          <div class="embed-wrapper" style="margin-bottom:16px;">
+            <iframe
+              src="https://www.youtube.com/embed/VIDEO_ID"
+              title="Latest Mental Edge Trading Podcast Episode"
+              frameborder="0"
+              allowfullscreen
+            ></iframe>
+          </div>
+
+          <h3 style="margin:0;">Episode Title – Latest Episode</h3>
+          <p style="color:var(--text-muted);margin-top:6px;max-width:760px;">
+            Add a short summary of the latest episode here, describing the
+            trading psychology tools covered.
+          </p>
+        </div>
+      </section>
+
+      <!-- RECENT EPISODES GRID -->
+      <section class="section reveal">
+        <div style="max-width:1120px;margin:0 auto;">
+          <h2 style="margin-bottom:20px;">Recent Episodes</h2>
+
+          <div
+            style="
+              display:grid;
+              grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+              gap:26px;
+            "
+          >
+            <!-- Episode Card 1 -->
+            <div class="page-card reveal">
+              <div class="embed-wrapper" style="margin-bottom:12px;">
+                <iframe
+                  src="https://www.youtube.com/embed/VIDEO_ID_1"
+                  title="Podcast Episode"
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <h3 class="blog-item-title" style="margin-bottom:6px;">
+                Episode Title 1
+              </h3>
+              <p class="blog-item-meta">10 min</p>
+              <p class="blog-item-excerpt">
+                Short description of what this episode covers in terms of
+                psychology or trade execution.
+              </p>
+            </div>
+
+            <!-- Episode Card 2 -->
+            <div class="page-card reveal reveal-delay-1">
+              <div class="embed-wrapper" style="margin-bottom:12px;">
+                <iframe
+                  src="https://www.youtube.com/embed/VIDEO_ID_2"
+                  title="Podcast Episode"
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <h3 class="blog-item-title" style="margin-bottom:6px;">
+                Episode Title 2
+              </h3>
+              <p class="blog-item-meta">12 min</p>
+              <p class="blog-item-excerpt">
+                Short description for this episode. Add the topic or psychology
+                lesson.
+              </p>
+            </div>
+
+            <!-- Episode Card 3 -->
+            <div class="page-card reveal reveal-delay-2">
+              <div class="embed-wrapper" style="margin-bottom:12px;">
+                <iframe
+                  src="https://www.youtube.com/embed/VIDEO_ID_3"
+                  title="Podcast Episode"
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <h3 class="blog-item-title" style="margin-bottom:6px;">
+                Episode Title 3
+              </h3>
+              <p class="blog-item-meta">8 min</p>
+              <p class="blog-item-excerpt">
+                You can list more episodes here — the full archive can be added
+                dynamically later from the admin dashboard.
+              </p>
+            </div>
+
+            <!-- Episode Card 4 -->
+            <div class="page-card reveal reveal-delay-3">
+              <div class="embed-wrapper" style="margin-bottom:12px;">
+                <iframe
+                  src="https://www.youtube.com/embed/VIDEO_ID_4"
+                  title="Podcast Episode"
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <h3 class="blog-item-title" style="margin-bottom:6px;">
+                Episode Title 4
+              </h3>
+              <p class="blog-item-meta">9 min</p>
+              <p class="blog-item-excerpt">
+                Add short descriptions so users know what they’re clicking into.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <p>&copy; <span id="year"></span> Mental Edge Trading · All rights reserved.</p>
+    </footer>
+
+    <script src="assets/js/main.js" defer></script>
+  </body>
+</html>

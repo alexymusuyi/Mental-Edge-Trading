@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Blog Post - Mental Edge Trading Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg: #f3f0ea;
+            --bg-soft: #f7f4ee;
+            --bg-card: #ffffff;
+            --text-main: #1c1c1f;
+            --text-muted: #6c6a72;
+            --accent: #666A10;
+            --accent-soft: #f8e0ea;
+            --border-subtle: #e0ddd5;
+            --shadow-soft: 0 18px 40px rgba(12, 8, 4, 0.1);
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-pill: 999px;
+            --transition-fast: 0.2s ease-out;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .admin-header {
+            background: var(--bg-card);
+            box-shadow: var(--shadow-soft);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .username {
+            font-weight: 500;
+        }
+
+        .logout-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: var(--radius-pill);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all var(--transition-fast);
+        }
+
+        .logout-btn:hover {
+            background: #555915;
+        }
+
+        /* Main Layout */
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            padding: 24px;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin-bottom: 8px;
+        }
+
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            text-decoration: none;
+            color: var(--text-main);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+            font-weight: 500;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* Messages */
+        .message {
+            padding: 16px;
+            border-radius: var(--radius-md);
+            margin-bottom: 20px;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Section */
+        .section {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-soft);
+            padding: 24px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--radius-pill);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(102, 106, 16, 0.3);
+        }
+
+        .btn.secondary {
+            background: var(--text-muted);
+        }
+
+        /* Blog Form */
+        .blog-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            background: var(--bg-soft);
+            transition: border-color var(--transition-fast);
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            min-height: 300px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .admin-container {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="admin-header">
+        <div class="header-inner">
+            <a href="admin_dashboard.html" class="logo">
+                <i class="fas fa-cog"></i> Admin Panel
+            </a>
+            <div class="user-info">
+                <span class="username">
+                    <i class="fas fa-user-shield"></i> admin
+                </span>
+                <a href="admin_login.html" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-container">
+        <aside class="sidebar">
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="admin_dashboard.html">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a></li>
+                    <li><a href="admin_blog.html" class="active">
+                        <i class="fas fa-blog"></i> Blog Management
+                    </a></li>
+                    <li><a href="admin_analytics.html">
+                        <i class="fas fa-chart-line"></i> Analytics
+                    </a></li>
+                    <li><a href="admin_settings.html">
+                        <i class="fas fa-cog"></i> Settings
+                    </a></li>
+                    <li><a href="index.html" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> View Website
+                    </a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <!-- Success Message -->
+            <div class="message success" id="successMessage" style="display: none;">
+                <i class="fas fa-check-circle"></i> Blog post updated successfully!
+            </div>
+
+            <!-- Edit Blog Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-edit"></i> Edit Blog Post
+                    </h2>
+                    <a href="admin_blog.html" class="btn secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Blog
+                    </a>
+                </div>
+
+                <form method="POST" class="blog-form" id="editBlogForm">
+                    <div class="form-group">
+                        <label for="title">Blog Title *</label>
+                        <input type="text" id="title" name="title" value="How to Stop Revenge Trading" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="excerpt">Excerpt (Short Description)</label>
+                        <textarea id="excerpt" name="excerpt" rows="3">Learn proven strategies to overcome revenge trading and develop emotional discipline in your trading practice.</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Category</label>
+                        <select id="category" name="category">
+                            <option value="Trading Psychology" selected>Trading Psychology</option>
+                            <option value="Mental Health">Mental Health</option>
+                            <option value="Market Analysis">Market Analysis</option>
+                            <option value="Personal Development">Personal Development</option>
+                            <option value="Trading Strategies">Trading Strategies</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tags">Tags (comma-separated)</label>
+                        <input type="text" id="tags" name="tags" value="trading, psychology, mental edge, discipline" placeholder="trading, psychology, mental edge">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="content">Blog Content *</label>
+                        <textarea id="content" name="content" required>Revenge trading is one of the most destructive patterns that traders face. It's that overwhelming urge to jump back into the market immediately after a loss, often with larger position sizes, in an attempt to "get back" at the market...
+
+## Understanding Revenge Trading
+
+Revenge trading stems from our natural human response to loss and perceived injustice. When we lose money in the markets, our brain's threat response system activates, triggering emotional responses that can override rational decision-making.
+
+### The Psychology Behind It
+
+1. **Loss Aversion**: Humans are wired to feel losses more intensely than gains
+2. **Ego Protection**: We want to prove the market wrong
+3. **Emotional Hijacking**: Strong emotions override logical thinking
+4. **Impatience**: Desire for immediate recovery of losses
+
+## Strategies to Overcome Revenge Trading
+
+### 1. Implement a Trading Cool-Off Period
+- Wait 30 minutes after any loss before making another trade
+- Use this time to analyze what went wrong objectively
+- Write down your emotional state and trading plan
+
+### 2. Develop a Pre-Trade Checklist
+- Am I following my trading plan?
+- Is this setup meeting all my criteria?
+- What is my risk-reward ratio?
+- Am I emotionally neutral?
+
+### 3. Use Position Sizing Rules
+- Never increase position size after a loss
+- Consider reducing size during drawdown periods
+- Stick to your predetermined risk per trade
+
+### 4. Practice Mindfulness
+- Develop awareness of your emotional state
+- Use breathing techniques to maintain calm
+- Accept losses as part of the trading business
+
+## Building Long-Term Discipline
+
+The key to overcoming revenge trading is developing rock-solid discipline. This comes from:
+
+- **Consistent Practice**: Following your rules every single time
+- **Journaling**: Tracking your emotions and decisions
+- **Education**: Continuously learning about trading psychology
+- **Support**: Having a trading community or mentor
+
+Remember, the market doesn't care about your feelings. It rewards discipline, patience, and rational decision-making. Every time you resist the urge to revenge trade, you're building the mental muscles that lead to long-term trading success.
+
+## Conclusion
+
+Overcoming revenge trading isn't about eliminating emotions – it's about managing them effectively. By implementing these strategies and maintaining awareness of your psychological state, you can break the cycle of destructive trading behavior and develop the mental edge needed for consistent profitability.
+
+The journey from emotional to disciplined trading is challenging but absolutely achievable. Start with one strategy, master it, then add others. Your future trading self will thank you for the work you do today.</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" name="status">
+                            <option value="draft">Draft</option>
+                            <option value="published" selected>Published</option>
+                        </select>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn">
+                            <i class="fas fa-save"></i> Update Post
+                        </button>
+                        <a href="admin_blog.html" class="btn secondary">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Handle blog post update (demo)
+        document.getElementById('editBlogForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show success message
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Hide message after 3 seconds
+            setTimeout(function() {
+                successMessage.style.display = 'none';
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

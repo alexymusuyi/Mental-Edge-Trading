@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact | Mental Edge Trading</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/img/MET-Logo.png" />
+
+    <!-- Fonts & Icons -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      crossorigin="anonymous"
+    />
+
+    <!-- Global styles -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+
+    <!-- Page-specific styles -->
+    <style>
+
+      /* ⭐ CENTER THE CONTACT HERO ⭐ */
+      .contact-hero {
+        text-align: center;
+      }
+
+      .contact-hero .page-hero-inner {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
+
+      /* Page wrapper tweaks */
+      main {
+        background: radial-gradient(circle at top left, #f9f6ec, #f3f0ea);
+      }
+
+      /* Hero */
+      .contact-hero {
+        padding-top: 90px;
+        padding-bottom: 24px;
+      }
+
+      .contact-hero .page-hero-inner {
+        max-width: 720px;
+      }
+
+      .contact-hero h1 {
+        margin-bottom: 10px;
+      }
+
+      /* Social hover cards */
+      .social-section {
+        padding-top: 10px;
+        padding-bottom: 40px;
+      }
+
+      .social-card-grid {
+        max-width: 1120px;
+        margin: 0 auto;
+        display: grid;
+        gap: 22px;
+      }
+
+      @media (min-width: 900px) {
+        .social-card-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      .social-card {
+        position: relative;
+        background: #fff;
+        border-radius: 24px;
+        padding: 26px 20px 22px;
+        text-align: center;
+        border: 1px solid #e5e2d7;
+        box-shadow: 0 18px 38px rgba(12, 8, 4, 0.08);
+        overflow: hidden;
+        transform-origin: center;
+        transition: transform 0.28s ease, box-shadow 0.28s ease;
+      }
+
+      .social-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at top left,
+          rgba(255, 255, 255, 0.9),
+          transparent 55%
+        );
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+      }
+
+      .social-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 24px 50px rgba(12, 8, 4, 0.16);
+      }
+
+      .social-card:hover::before {
+        opacity: 1;
+      }
+
+      .social-card img {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        margin-bottom: 12px;
+      }
+
+      .social-card h3 {
+        font-size: 1.05rem;
+        margin-bottom: 6px;
+      }
+
+      .social-card p {
+        color: var(--text-muted);
+        font-size: 0.88rem;
+        margin-bottom: 12px;
+      }
+
+      .social-card a {
+        color: var(--accent);
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .social-card a i {
+        font-size: 0.9rem;
+      }
+
+      /* Contact section */
+      .contact-shell {
+        max-width: 1120px;
+        margin: 0 auto 80px;
+        display: grid;
+        gap: 32px;
+        grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+        align-items: flex-start;
+      }
+
+      @media (max-width: 992px) {
+        .contact-shell {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+
+      .contact-form-container {
+        background: #fff;
+        border-radius: 26px;
+        padding: 26px 26px 28px;
+        box-shadow: 0 22px 46px rgba(12, 8, 4, 0.14);
+        border: 1px solid #e1ded4;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .contact-form-container::before {
+        content: "";
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        border-radius: 999px;
+        background: radial-gradient(
+          circle at top right,
+          rgba(250, 248, 219, 0.9),
+          transparent 65%
+        );
+        top: -120px;
+        right: -40px;
+      }
+
+      .contact-form-header h3 {
+        margin-top: 0;
+      }
+
+      .contact-reasons {
+        margin: 10px 0 18px;
+        padding-left: 18px;
+        color: var(--text-muted);
+        font-size: 0.92rem;
+      }
+
+      .contact-form button.btn.primary {
+        margin-top: 12px;
+      }
+
+      /* Side info */
+      .contact-side-card {
+        border-radius: 24px;
+        padding: 22px;
+        background: linear-gradient(135deg, #f3efe1, #e9e1cf);
+        box-shadow: 0 20px 42px rgba(12, 8, 4, 0.18);
+        border: 1px solid rgba(102, 97, 10, 0.2);
+      }
+
+      .contact-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.95);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        font-size: 0.78rem;
+        color: #66610a;
+      }
+
+      /* Success / error messages */
+      .success-box,
+      .error-box {
+        display: none;
+        margin-top: 12px;
+        font-size: 0.88rem;
+        font-weight: 600;
+      }
+
+      .success-box {
+        color: #20774d;
+      }
+
+      .error-box {
+        color: #b12727;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <header class="site-header">
+      <nav class="nav">
+        <div class="nav-inner">
+          <a href="index.html" class="nav-logo">
+            <img src="assets/img/MET-Logo.png" alt="Logo" />
+            <span class="nav-logo-text">Mental Edge Trading</span>
+          </a>
+
+          <button class="nav-toggle" id="navToggle">
+            <span></span><span></span><span></span>
+          </button>
+
+          <ul class="nav-links" id="navLinks">
+            <li><a href="podcast.html">Podcast</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="book.html">Book</a></li>
+            <li><a href="contact.html" class="active">Contact</a></li>
+            <li><a href="admin_login.html" class="login-btn"><i class="fas fa-lock"></i> Admin Login</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="contact-hero page-hero">
+      <div class="page-hero-inner reveal">
+        <h1>Contact Sarah</h1>
+        <p>
+          For podcast interviews, partnerships, collaborations, or coaching
+          opportunities — reach out below.
+        </p>
+      </div>
+    </section>
+
+    <!-- SOCIAL CARDS -->
+    <section class="social-section">
+      <div class="social-card-grid">
+        <article class="social-card reveal">
+          <img src="https://static.vecteezy.com/system/resources/thumbnails/016/716/485/small/tiktok-icon-free-png.png" alt="TikTok logo" />
+          <h3>TikTok</h3>
+          <p>Daily trading psychology insights.</p>
+          <a href="https://www.tiktok.com/@mentaledge.trading" target="_blank">
+            @mentaledge.trading →
+          </a>
+        </article>
+
+        <article class="social-card reveal">
+          <img src="https://i.pinimg.com/736x/0a/1e/6f/0a1e6f9872388e41f03f6886654a8235.jpg" alt="Instagram logo" />
+          <h3>Instagram</h3>
+          <p>Behind-the-scenes tools & lessons.</p>
+          <a href="https://www.instagram.com/mentaledge.trading" target="_blank">
+            @mentaledge.trading →
+          </a>
+        </article>
+
+        <article class="social-card reveal">
+        <img
+              src="https://cdn-icons-png.flaticon.com/512/12227/12227368.png"
+              alt="Email icon"
+            />
+          <p>Business email coming soon.</p>
+          <a href="#">Placeholder Email →</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section class="section">
+      <div class="contact-shell">
+
+        <!-- FORM -->
+        <div class="contact-form-container reveal">
+          <div class="contact-form-header">
+            <h3>Send a Message</h3>
+            <ul class="contact-reasons">
+              <li>Podcast interviews & guest trainings</li>
+              <li>Affiliations or partnerships</li>
+              <li>Coaching offers for groups or individuals</li>
+            </ul>
+          </div>
+
+          <form action="send-email.php" method="POST" class="contact-form">
+            <label>
+              Your Name
+              <input type="text" name="name" required />
+            </label>
+
+            <label>
+              Your Email
+              <input type="email" name="email" required />
+            </label>
+
+            <label>
+              Reason
+              <select name="reason" required>
+                <option value="">Select…</option>
+                <option>Podcast interview</option>
+                <option>Affiliation or partnership</option>
+                <option>Coaching offer</option>
+                <option>General inquiry</option>
+              </select>
+            </label>
+
+            <label>
+              Message
+              <textarea name="message" rows="6" required></textarea>
+            </label>
+
+            <button class="btn primary">Send Message</button>
+
+            <p id="contactSuccess" class="success-box">Message sent!</p>
+            <p id="contactError" class="error-box">Something went wrong.</p>
+          </form>
+        </div>
+
+        <!-- SIDE CARD -->
+          <aside class="contact-side-card reveal">
+            <div class="contact-side-meta">
+              <span class="contact-pill">
+                <i class="fa-solid fa-microphone-lines"></i>
+                Podcast collabs
+              </span>
+              <span class="contact-pill">
+                <i class="fa-solid fa-handshake"></i>
+                Partnerships
+              </span>
+              <span class="contact-pill">
+                <i class="fa-solid fa-users"></i>
+                Group coaching
+              </span>
+            </div>
+
+            <h3>What to expect</h3>
+            <p>
+              Messages are reviewed personally. If your inquiry aligns with
+              Sarah’s current focus — trading psychology for serious traders —
+              you’ll usually hear back within a few business days.
+            </p>
+            <p>
+              For time-sensitive podcast interviews or launch collaborations,
+              please include your recording window or launch date so she can
+              prioritize appropriately.
+            </p>
+            <p style="font-size: 0.86rem; margin-top: 10px; color: #6c6a72;">
+              Please note: nothing shared here is financial advice or individual
+              therapy. This is strictly for coaching, education, and
+              collaboration opportunities.
+            </p>
+          </aside>
+        </div>
+      </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <p>&copy; <span id="year"></span> Mental Edge Trading</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/main.js"></script>
+
+    <script>
+      // Show success/error messages based on URL params
+      document.addEventListener("DOMContentLoaded", () => {
+        const p = new URLSearchParams(location.search);
+        if (p.get("success") === "1")
+          document.getElementById("contactSuccess").style.display = "block";
+        if (p.get("error") === "1")
+          document.getElementById("contactError").style.display = "block";
+      });
+    </script>
+
+  </body>
+</html>

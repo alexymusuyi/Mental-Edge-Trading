@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Mental Edge Trading – Blog & Weekly Insights</title>
+
+    <!-- Fonts & Icons -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Main styles -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+
+    <!-- Blog-page specific layout styles (keeps global theme intact) -->
+    <style>
+      .blog-page-shell {
+        max-width: 1120px;
+        margin: 0 auto;
+      }
+
+      .blog-category-tabs {
+        display: inline-flex;
+        gap: 28px;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        border-bottom: 1px solid var(--border-subtle);
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+      }
+
+      .blog-category-tabs button {
+        background: none;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        color: var(--text-muted);
+        position: relative;
+        transition: color 0.35s ease-out;
+      }
+
+      .blog-category-tabs button.is-active {
+        color: #666A10;
+      }
+
+      .blog-category-tabs button.is-active::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -10px;
+        height: 2px;
+        background: #666A10;
+      }
+
+      .blog-entry-list {
+        margin-top: 26px;
+      }
+
+      .blog-entry {
+        padding: 24px 0;
+        border-top: 1px solid var(--border-subtle);
+        transition: opacity 0.35s ease-out, transform 0.35s ease-out;
+      }
+
+      .blog-entry:first-of-type {
+        border-top: none;
+      }
+
+      .blog-entry-link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .blog-entry-inner {
+        display: grid;
+        grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
+        gap: 24px;
+      }
+
+      .blog-thumb {
+        width: 100%;
+        padding-bottom: 65%;
+        border-radius: 16px;
+        background: #000; /* black placeholder image */
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.16);
+        transition: transform 0.22s ease-out, box-shadow 0.22s ease-out;
+      }
+
+      .blog-entry-link:hover .blog-thumb {
+        transform: translateY(-3px);
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.22);
+      }
+
+      .blog-entry-title {
+        margin: 0 0 6px;
+        font-size: 1.05rem;
+        text-transform: uppercase;
+      }
+
+      .blog-entry-meta {
+        margin: 0 0 10px;
+        font-size: 0.82rem;
+        color: var(--text-muted);
+      }
+
+      .blog-entry-excerpt {
+        margin: 0;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        line-height: 1.7;
+      }
+
+      .blog-entry-link:hover .blog-entry-title {
+        color: #666A10;
+      }
+
+      /* Filter hide – only fade/slide, no heavy layout animation */
+      .blog-entry.is-hidden {
+        opacity: 0;
+        transform: translateY(8px);
+        pointer-events: none;
+        height: 0;
+        margin: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        border-color: transparent;
+        overflow: hidden;
+      }
+
+      @media (max-width: 800px) {
+        .blog-entry-inner {
+          grid-template-columns: 1fr;
+        }
+
+        .blog-thumb {
+          padding-bottom: 56%;
+        }
+      }
+
+      /* Book sidebar – image on side, text next to it */
+      .book-sidebar {
+        display: grid;
+        grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+        gap: 20px;
+        align-items: flex-start;
+      }
+
+      .book-sidebar-media .book-cover {
+        padding: 16px;
+      }
+
+      @media (max-width: 860px) {
+        .book-sidebar {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <header class="site-header">
+      <nav class="nav">
+        <div class="nav-inner">
+          <a href="index.html" class="nav-logo">
+            <img
+              src="assets/img/MET-Logo.png"
+              alt="Mental Edge Trading logo"
+            />
+            <span class="nav-logo-text">Mental Edge Trading</span>
+          </a>
+
+          <button
+            class="nav-toggle"
+            id="navToggle"
+            aria-label="Toggle navigation"
+          >
+            <span></span><span></span><span></span>
+          </button>
+
+          <ul class="nav-links" id="navLinks">
+            <li><a href="podcast.html">Podcast</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="book.html">Book &amp; Workbook</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="admin_login.html" class="login-btn"><i class="fas fa-lock"></i> Admin Login</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <!-- HERO / INTRO -->
+      <section class="section page-hero">
+        <div class="section-header reveal">
+          <h2>BLOG</h2>
+          <p>
+            A written extension of the Mental Edge Trading podcast – focused on
+            emotional discipline, structure, and the real psychological patterns
+            traders run into every day.
+          </p>
+        </div>
+      </section>
+
+      <!-- BLOG LIST + BOOK SIDEBAR -->
+      <section class="section">
+        <div class="blog-page-shell page-grid page-grid--two">
+          <!-- MAIN BLOG COLUMN -->
+          <div class="page-card reveal">
+            <!-- Category tabs -->
+            <div class="blog-category-tabs" id="blogCategoryTabs">
+              <button type="button" class="is-active" data-filter="all">
+                All
+              </button>
+              <button type="button" data-filter="announcements">
+                Announcements
+              </button>
+              <button type="button" data-filter="funded">
+                Funded Account
+              </button>
+              <button type="button" data-filter="routine">Routine</button>
+              <button type="button" data-filter="psychology">
+                Psychology
+              </button>
+            </div>
+
+            <p
+              style="
+                color:var(--text-muted);
+                margin:6px 0 26px;
+                font-size:0.9rem;
+              "
+            >
+              Watch full lives on
+              <a
+                href="https://riverside.com/"
+                target="_blank"
+                rel="noopener"
+                style="color:var(--accent);text-decoration:underline;"
+                >riverside.com</a
+              >. This page gives short previews. Click any post to open a
+              dedicated page with the full article. Later, these will all be
+              managed from your admin dashboard.
+            </p>
+
+            <div class="blog-entry-list" id="blogEntryList">
+              <!-- Entry 1 – Announcements -->
+              <article
+                class="blog-entry reveal"
+                data-post-id="1"
+                data-category="announcements"
+              >
+                <a href="blog-post-1.html" class="blog-entry-link">
+                  <div class="blog-entry-inner">
+                    <div class="blog-thumb"></div>
+
+                    <div>
+                      <h3 class="blog-entry-title">
+                        Welcome to the Mental Edge Trading Blog
+                      </h3>
+                      <p class="blog-entry-meta">
+                        Announcements · 3 minute read
+                      </p>
+                      <p class="blog-entry-excerpt">
+                        A quick overview of what you can expect from this space:
+                        short, practical posts on trading psychology, emotional
+                        discipline, and structure that connect directly to the
+                        podcast and upcoming book &amp; workbook bundle.
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              </article>
+
+              <!-- Entry 2 – Psychology -->
+              <article
+                class="blog-entry reveal reveal-delay-1"
+                data-post-id="2"
+                data-category="psychology"
+              >
+                <a href="blog-post-2.html" class="blog-entry-link">
+                  <div class="blog-entry-inner">
+                    <div class="blog-thumb"></div>
+
+                    <div>
+                      <h3 class="blog-entry-title">
+                        Discover Your Revenge-Trade Warning Signs
+                      </h3>
+                      <p class="blog-entry-meta">
+                        Psychology · 5 minute read
+                      </p>
+                      <p class="blog-entry-excerpt">
+                        Before a revenge trade ever hits the chart, it shows up
+                        in your body language and self-talk. This post walks
+                        through the patterns Sarah sees in traders who “snap”
+                        after a loss – and how to interrupt it in real time.
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              </article>
+
+              <!-- Entry 3 – Routine -->
+              <article
+                class="blog-entry reveal reveal-delay-2"
+                data-post-id="3"
+                data-category="routine"
+              >
+                <a href="blog-post-3.html" class="blog-entry-link">
+                  <div class="blog-entry-inner">
+                    <div class="blog-thumb"></div>
+
+                    <div>
+                      <h3 class="blog-entry-title">
+                        A Minimal Pre-Market Routine for Busy Traders
+                      </h3>
+                      <p class="blog-entry-meta">
+                        Routine · 4 minute read
+                      </p>
+                      <p class="blog-entry-excerpt">
+                        No 2-hour morning ritual required. Learn how to compress
+                        your pre-market preparation into 10–15 focused minutes
+                        that actually happen – even when you’re trading around a
+                        job, family, or school.
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              </article>
+
+              <!-- Entry 4 – Funded Account -->
+              <article
+                class="blog-entry reveal reveal-delay-3"
+                data-post-id="4"
+                data-category="funded"
+              >
+                <a href="blog-post-4.html" class="blog-entry-link">
+                  <div class="blog-entry-inner">
+                    <div class="blog-thumb"></div>
+
+                    <div>
+                      <h3 class="blog-entry-title">
+                        Trading With Someone Else’s Money: Funded Account
+                        Mindset
+                      </h3>
+                      <p class="blog-entry-meta">
+                        Funded Account · 6 minute read
+                      </p>
+                      <p class="blog-entry-excerpt">
+                        When evaluation rules and daily drawdown limits are in
+                        the back of your mind, it’s easy to trade “not to
+                        lose.” Sarah shares a framework for staying within the
+                        rules while still taking the trades that match your
+                        edge.
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              </article>
+
+              <!-- Entry 5 – Psychology -->
+              <article
+                class="blog-entry reveal"
+                data-post-id="5"
+                data-category="psychology"
+              >
+                <a href="blog-post-5.html" class="blog-entry-link">
+                  <div class="blog-entry-inner">
+                    <div class="blog-thumb"></div>
+
+                    <div>
+                      <h3 class="blog-entry-title">
+                        Using Journaling Without Turning Trading Into Therapy
+                      </h3>
+                      <p class="blog-entry-meta">
+                        Psychology · 5 minute read
+                      </p>
+                      <p class="blog-entry-excerpt">
+                        You don’t need pages of emotional processing after every
+                        session. This post shows you a lightweight journaling
+                        template that captures what matters and helps you make
+                        one concrete improvement next time you sit down to
+                        trade.
+                      </p>
+                    </div>
+                  </div>
+                </a>
+              </article>
+            </div>
+          </div>
+
+          <!-- SIDEBAR: BOOK / BUNDLE PROMO (image on side, text next to it) -->
+          <aside class="page-card reveal reveal-delay-1">
+            <div class="book-sidebar">
+              <div class="book-sidebar-media">
+                <div class="book-cover">
+                  <img
+                    src="assets/img/book-cover.jpg"
+                    alt="Mental Edge Trading book & workbook bundle"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <h3 style="margin-top:0;margin-bottom:6px;">
+                  The Mental Edge Trading Book &amp; Workbook
+                </h3>
+                <p style="color:var(--text-muted);margin-top:0;">
+                  A minimalist, practical guide for traders who want emotional
+                  discipline and structure without the fluff.
+                </p>
+
+                <ul
+                  style="
+                    margin:10px 0 12px;
+                    padding-left:18px;
+                    color:var(--text-muted);
+                    font-size:0.9rem;
+                  "
+                >
+                  <li>Retired therapist turned trader</li>
+                  <li>Master of Social Work (MSW)</li>
+                  <li>Paid off $150k of debt with trading</li>
+                </ul>
+
+                <p style="color:var(--text-muted);font-size:0.9rem;">
+                  The bundle will launch first as a
+                  <strong>downloadable PDF delivered by email</strong>. No
+                  course portal or login yet – just a clean sales page and an
+                  automatic email with the book &amp; workbook attached.
+                </p>
+
+                <p style="color:var(--text-muted);font-size:0.85rem;">
+                  Later, this section will connect to your admin dashboard
+                  (through cPanel) so you can change pricing, bonuses, and copy
+                  yourself without touching the code.
+                </p>
+
+                <a
+                  href="book.html"
+                  class="btn primary"
+                  style="margin-top:8px;width:100%;justify-content:center;"
+                >
+                  Learn more about the bundle
+                </a>
+
+                <!-- Disclaimer -->
+                <div
+                  style="
+                    margin-top:14px;
+                    padding:10px 12px;
+                    border-radius:12px;
+                    background:#fff7f3;
+                    border:1px solid rgba(0,0,0,0.04);
+                    font-size:0.8rem;
+                    color:var(--text-muted);
+                  "
+                >
+                  <strong>Disclaimer:</strong> I am a retired therapist and no
+                  longer practicing. I am not a licensed professional providing
+                  clinical advice. Everything I share is for educational
+                  purposes only and is not a substitute for professional mental
+                  health care or financial advice.
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <p>
+        &copy; <span id="year"></span> Mental Edge Trading · All rights
+        reserved.
+      </p>
+    </footer>
+
+    <!-- Main JS (nav, scroll reveal, etc.) -->
+    <script src="assets/js/main.js" defer></script>
+
+    <!-- Blog filter logic -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const tabContainer = document.getElementById("blogCategoryTabs");
+        if (!tabContainer) return;
+
+        const tabs = Array.from(tabContainer.querySelectorAll("button"));
+        const entries = Array.from(
+          document.querySelectorAll(".blog-entry")
+        );
+
+        function applyFilter(filter) {
+          entries.forEach((entry) => {
+            const cat = entry.getAttribute("data-category");
+            const match = filter === "all" || cat === filter;
+
+            if (match) {
+              entry.classList.remove("is-hidden");
+            } else {
+              entry.classList.add("is-hidden");
+            }
+          });
+        }
+
+        tabContainer.addEventListener("click", (e) => {
+          const btn = e.target.closest("button[data-filter]");
+          if (!btn) return;
+
+          const filter = btn.getAttribute("data-filter");
+
+          tabs.forEach((t) => t.classList.remove("is-active"));
+          btn.classList.add("is-active");
+
+          applyFilter(filter);
+        });
+      });
+    </script>
+  </body>
+</html>
