@@ -2,36 +2,51 @@
 require_once 'config.php';
 
 // Redirect if already logged in
-if (isAdminLoggedIn()) {
-    header('Location: admin_dashboard.php');
+if (isUserLoggedIn()) {
+    header('Location: dashboard.php');
     exit();
 }
 
-$login_error = '';
+$message = '';
+$error = '';
+$token = $_GET['token'] ?? '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'] ?? '';
+if (empty($token)) {
+    header('Location: login.php');
+    exit();
+}
+
+// Verify token
+$stmt = $pdo->prepare("SELECT id, username, reset_expires FROM users WHERE reset_token = ? AND is_active = true");
+$stmt->execute([$token]);
+$user = $stmt->fetch();
+
+if (!$user) {
+    $error = 'Invalid or expired reset link';
+} elseif (strtotime($user['reset_expires']) < time()) {
+    $error = 'Reset link has expired';
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $user && empty($error)) {
     $password = $_POST['password'] ?? '';
+    $confirm_password = $_POST['confirm_password'] ?? '';
     
-    // Verify admin credentials
-    $stmt = $pdo->prepare("SELECT * FROM admin_users WHERE username = ?");
-    $stmt->execute([$username]);
-    $admin = $stmt->fetch();
-    
-    if ($admin && password_verify($password, $admin['password_hash'])) {
-        // Update last login
-        $stmt = $pdo->prepare("UPDATE admin_users SET last_login = NOW() WHERE id = ?");
-        $stmt->execute([$admin['id']]);
-        
-        // Set session
-        $_SESSION['admin_logged_in'] = true;
-        $_SESSION['admin_id'] = $admin['id'];
-        $_SESSION['admin_username'] = $admin['username'];
-        
-        header('Location: admin_dashboard.php');
-        exit();
+    if (empty($password)) {
+        $error = 'Password is required';
+    } elseif (strlen($password) < 6) {
+        $error = 'Password must be at least 6 characters long';
+    } elseif ($password !== $confirm_password) {
+        $error = 'Passwords do not match';
     } else {
-        $login_error = 'Invalid username or password';
+        // Update password
+        $password_hash = password_hash($password, PASSWORD_DEFAULT);
+        $stmt = $pdo->prepare("UPDATE users SET password_hash = ?, reset_token = NULL, reset_expires = NULL WHERE id = ?");
+        
+        if ($stmt->execute([$password_hash, $user['id']])) {
+            $message = 'Password updated successfully! You can now <a href="login.php" style="color: #155724; text-decoration: underline;">login</a> with your new password.';
+        } else {
+            $error = 'Failed to update password. Please try again.';
+        }
     }
 }
 ?>
@@ -40,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - Mental Edge Trading</title>
+    <title>Reset Password - Mental Edge Trading</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -77,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             padding: 20px;
         }
 
-        .login-container {
+        .reset-container {
             background: var(--bg-card);
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-soft);
@@ -87,23 +102,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             text-align: center;
         }
 
-        .login-header {
+        .reset-header {
             margin-bottom: 30px;
         }
 
-        .login-header h1 {
+        .reset-header h1 {
             font-size: 1.8rem;
             font-weight: 600;
             color: var(--accent);
             margin-bottom: 8px;
         }
 
-        .login-header p {
+        .reset-header p {
             color: var(--text-muted);
             font-size: 0.9rem;
         }
 
-        .login-form {
+        .reset-form {
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -158,18 +173,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             box-shadow: 0 8px 25px rgba(102, 106, 16, 0.3);
         }
 
-        .error-message {
-            background: #fee;
-            color: #c33;
-            padding: 12px;
+        .message {
+            padding: 16px;
             border-radius: var(--radius-md);
-            font-size: 0.9rem;
             margin-bottom: 20px;
-            display: none;
+            text-align: left;
         }
 
-        .error-message.show {
-            display: block;
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .form-links {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.85rem;
+        }
+
+        .form-links a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        .form-links a:hover {
+            text-decoration: underline;
         }
 
         .back-link {
@@ -186,57 +222,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .back-link:hover {
             color: var(--accent);
         }
-
-        .demo-info {
-            background: var(--bg-soft);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            padding: 16px;
-            margin-top: 20px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .demo-info h3 {
-            color: var(--accent);
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-        }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-header">
-            <h1><i class="fas fa-lock"></i> Admin Login</h1>
-            <p>Secure access to Mental Edge Trading Admin Panel</p>
+    <div class="reset-container">
+        <div class="reset-header">
+            <h1><i class="fas fa-key"></i> Reset Password</h1>
+            <p>Create a new password for your account</p>
         </div>
 
-        <?php if ($login_error): ?>
-            <div class="error-message show">
-                <i class="fas fa-exclamation-triangle"></i> <?php echo htmlspecialchars($login_error); ?>
+        <?php if ($message): ?>
+            <div class="message success">
+                <?php echo $message; ?>
             </div>
         <?php endif; ?>
 
-        <form class="login-form" method="POST">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required autofocus>
+        <?php if ($error): ?>
+            <div class="message error">
+                <i class="fas fa-exclamation-triangle"></i> <?php echo htmlspecialchars($error); ?>
             </div>
+        <?php endif; ?>
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
+        <?php if ($user && empty($message)): ?>
+            <form class="reset-form" method="POST">
+                <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
+                
+                <div class="form-group">
+                    <label for="password">New Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
 
-            <button type="submit" class="btn">
-                <i class="fas fa-sign-in-alt"></i> Login
-            </button>
-        </form>
+                <div class="form-group">
+                    <label for="confirm_password">Confirm New Password</label>
+                    <input type="password" id="confirm_password" name="confirm_password" required>
+                </div>
 
-        <div class="demo-info">
-            <h3>Admin Access</h3>
-            <p><strong>Username:</strong> sarahadmin<br>
-            <strong>Password:</strong> SarahAdmin7722</p>
+                <button type="submit" class="btn">
+                    <i class="fas fa-save"></i> Update Password
+                </button>
+            </form>
+        <?php endif; ?>
+
+        <div class="form-links">
+            <a href="login.php">Back to Login</a>
         </div>
 
         <a href="index.html" class="back-link">

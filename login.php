@@ -2,8 +2,8 @@
 require_once 'config.php';
 
 // Redirect if already logged in
-if (isAdminLoggedIn()) {
-    header('Location: admin_dashboard.php');
+if (isUserLoggedIn()) {
+    header('Location: dashboard.php');
     exit();
 }
 
@@ -13,22 +13,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
     
-    // Verify admin credentials
-    $stmt = $pdo->prepare("SELECT * FROM admin_users WHERE username = ?");
+    // Verify user credentials
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE username = ? AND is_active = true");
     $stmt->execute([$username]);
-    $admin = $stmt->fetch();
+    $user = $stmt->fetch();
     
-    if ($admin && password_verify($password, $admin['password_hash'])) {
+    if ($user && password_verify($password, $user['password_hash'])) {
         // Update last login
-        $stmt = $pdo->prepare("UPDATE admin_users SET last_login = NOW() WHERE id = ?");
-        $stmt->execute([$admin['id']]);
+        $stmt = $pdo->prepare("UPDATE users SET last_login = NOW() WHERE id = ?");
+        $stmt->execute([$user['id']]);
         
         // Set session
-        $_SESSION['admin_logged_in'] = true;
-        $_SESSION['admin_id'] = $admin['id'];
-        $_SESSION['admin_username'] = $admin['username'];
+        $_SESSION['user_logged_in'] = true;
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['user_username'] = $user['username'];
+        $_SESSION['user_email'] = $user['email'];
+        $_SESSION['user_membership'] = $user['membership_type'];
         
-        header('Location: admin_dashboard.php');
+        header('Location: dashboard.php');
         exit();
     } else {
         $login_error = 'Invalid username or password';
@@ -40,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login - Mental Edge Trading</title>
+    <title>Member Login - Mental Edge Trading</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -172,6 +174,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             display: block;
         }
 
+        .form-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            font-size: 0.85rem;
+        }
+
+        .form-links a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color var(--transition-fast);
+        }
+
+        .form-links a:hover {
+            text-decoration: underline;
+        }
+
         .back-link {
             margin-top: 20px;
             color: var(--text-muted);
@@ -207,8 +227,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <div class="login-container">
         <div class="login-header">
-            <h1><i class="fas fa-lock"></i> Admin Login</h1>
-            <p>Secure access to Mental Edge Trading Admin Panel</p>
+            <h1><i class="fas fa-user"></i> Member Login</h1>
+            <p>Access your Mental Edge Trading account</p>
         </div>
 
         <?php if ($login_error): ?>
@@ -231,12 +251,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <button type="submit" class="btn">
                 <i class="fas fa-sign-in-alt"></i> Login
             </button>
+
+            <div class="form-links">
+                <a href="register.php">Create Account</a>
+                <a href="forgot_password.php">Forgot Password?</a>
+            </div>
         </form>
 
         <div class="demo-info">
-            <h3>Admin Access</h3>
-            <p><strong>Username:</strong> sarahadmin<br>
-            <strong>Password:</strong> SarahAdmin7722</p>
+            <h3>Demo Access</h3>
+            <p><strong>Username:</strong> TESTLOGIN<br>
+            <strong>Password:</strong> USERTEST</p>
         </div>
 
         <a href="index.html" class="back-link">

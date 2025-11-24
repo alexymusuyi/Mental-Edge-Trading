@@ -2,6 +2,7 @@
 require_once 'config.php';
 requireAdminLogin();
 
+$admin = getCurrentAdmin();
 $message = '';
 $error = '';
 
@@ -19,8 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($title && $content) {
             $slug = strtolower(preg_replace('/[^A-Za-z0-9-]+/', '-', $title));
             
-            $stmt = $pdo->prepare("INSERT INTO blog_posts (title, slug, content, excerpt, category, tags, status) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            if ($stmt->execute([$title, $slug, $content, $excerpt, $category, $tags, $status])) {
+            $stmt = $pdo->prepare("INSERT INTO blog_posts (title, slug, content, excerpt, category, tags, status, author_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            if ($stmt->execute([$title, $slug, $content, $excerpt, $category, $tags, $status, $admin['id']])) {
                 $message = 'Blog post created successfully!';
             } else {
                 $error = 'Failed to create blog post.';
@@ -43,7 +44,7 @@ if (isset($_GET['delete'])) {
 }
 
 // Get all blog posts
-$stmt = $pdo->query("SELECT * FROM blog_posts ORDER BY created_at DESC");
+$stmt = $pdo->query("SELECT bp.*, au.username as author_name FROM blog_posts bp LEFT JOIN admin_users au ON bp.author_id = au.id ORDER BY bp.created_at DESC");
 $posts = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>

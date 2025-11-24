@@ -21,6 +21,10 @@ $stats['draft_posts'] = $stmt->fetchColumn();
 $stmt = $pdo->query("SELECT SUM(views) as total_views FROM blog_posts");
 $stats['total_views'] = $stmt->fetchColumn() ?? 0;
 
+// Total users
+$stmt = $pdo->query("SELECT COUNT(*) as total_users FROM users WHERE is_active = true");
+$stats['total_users'] = $stmt->fetchColumn();
+
 // Recent posts
 $stmt = $pdo->query("SELECT * FROM blog_posts ORDER BY created_at DESC LIMIT 5");
 $recent_posts = $stmt->fetchAll();
@@ -38,6 +42,18 @@ if (!$today_stats) {
 // Get all blog posts for management
 $stmt = $pdo->query("SELECT * FROM blog_posts ORDER BY created_at DESC");
 $all_posts = $stmt->fetchAll();
+
+// Get recent users
+$stmt = $pdo->query("SELECT * FROM users ORDER BY created_at DESC LIMIT 5");
+$recent_users = $stmt->fetchAll();
+
+// Get total orders
+$stmt = $pdo->query("SELECT COUNT(*) as total_orders FROM orders WHERE status = 'completed'");
+$stats['total_orders'] = $stmt->fetchColumn();
+
+// Get total revenue
+$stmt = $pdo->query("SELECT SUM(amount) as total_revenue FROM orders WHERE status = 'completed'");
+$stats['total_revenue'] = $stmt->fetchColumn() ?? 0;
 ?>
 <!DOCTYPE html>
 <html lang="en">

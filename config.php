@@ -6,8 +6,14 @@ define('DB_USER', 'root');
 define('DB_PASS', '');
 
 // Admin Configuration
-define('ADMIN_USERNAME', 'admin');
-define('ADMIN_PASSWORD_HASH', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'); // password
+// Real admin credentials as requested
+define('ADMIN_USERNAME', 'sarahadmin');
+define('ADMIN_PASSWORD_HASH', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'); // Will be updated with real hash
+
+// User Configuration
+// Test user credentials as requested
+define('TEST_USER_USERNAME', 'TESTLOGIN');
+define('TEST_USER_PASSWORD_HASH', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'); // Will be updated with real hash
 
 // Session Configuration
 session_start();
@@ -26,12 +32,47 @@ function isAdminLoggedIn() {
     return isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true;
 }
 
+// Check if user is logged in
+function isUserLoggedIn() {
+    return isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true;
+}
+
 // Redirect if not admin
 function requireAdminLogin() {
     if (!isAdminLoggedIn()) {
         header('Location: admin_login.php');
         exit();
     }
+}
+
+// Redirect if not user
+function requireUserLogin() {
+    if (!isUserLoggedIn()) {
+        header('Location: login.php');
+        exit();
+    }
+}
+
+// Get current user info
+function getCurrentUser() {
+    if (isUserLoggedIn()) {
+        global $pdo;
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+        $stmt->execute([$_SESSION['user_id']]);
+        return $stmt->fetch();
+    }
+    return null;
+}
+
+// Get current admin info
+function getCurrentAdmin() {
+    if (isAdminLoggedIn()) {
+        global $pdo;
+        $stmt = $pdo->prepare("SELECT * FROM admin_users WHERE id = ?");
+        $stmt->execute([$_SESSION['admin_id']]);
+        return $stmt->fetch();
+    }
+    return null;
 }
 
 // Security headers

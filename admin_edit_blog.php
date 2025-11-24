@@ -54,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_post'])) {
     <title>Edit Blog Post - Mental Edge Trading Admin</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js"></script>
     <style>
         :root {
             --bg: #f3f0ea;
@@ -302,6 +303,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_post'])) {
             margin-top: 24px;
         }
 
+        /* TinyMCE Editor */
+        .tox-tinymce {
+            border: 1px solid var(--border-subtle) !important;
+            border-radius: var(--radius-md) !important;
+        }
+
+        .tox-editor-header {
+            background: var(--bg-soft) !important;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .admin-container {
@@ -356,18 +367,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_post'])) {
         </aside>
 
         <main class="main-content">
-            <!-- Messages -->
-            <?php if ($message): ?>
-                <div class="message success">
-                    <i class="fas fa-check-circle"></i> <?php echo htmlspecialchars($message); ?>
-                </div>
-            <?php endif; ?>
-
-            <?php if ($error): ?>
-                <div class="message error">
-                    <i class="fas fa-exclamation-triangle"></i> <?php echo htmlspecialchars($error); ?>
-                </div>
-            <?php endif; ?>
+            <!-- Success Message -->
+            <div class="message success" id="successMessage" style="display: none;">
+                <i class="fas fa-check-circle"></i> Blog post updated successfully!
+            </div>
 
             <!-- Edit Blog Section -->
             <div class="section">
@@ -381,10 +384,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_post'])) {
                 </div>
 
                 <?php if ($post): ?>
-                <form method="POST" class="blog-form">
-                    <input type="hidden" name="update_post" value="1">
-                    <input type="hidden" name="post_id" value="<?php echo $post['id']; ?>">
-                    
+                <form method="POST" class="blog-form" id="editBlogForm">
                     <div class="form-group">
                         <label for="title">Blog Title *</label>
                         <input type="text" id="title" name="title" value="<?php echo htmlspecialchars($post['title']); ?>" required>
@@ -439,5 +439,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_post'])) {
             </div>
         </main>
     </div>
+
+    <script>
+        // Initialize TinyMCE
+        tinymce.init({
+            selector: '#content',
+            plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+            toolbar_mode: 'floating',
+            toolbar: 'undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap | preview | save print | insertfile image media template link anchor codesample | ltr rtl',
+            height: 500,
+            menubar: 'file edit view insert format tools table help',
+            menu: {
+                file: { title: 'File', items: 'newdocument restoredraft | preview | export print | deleteallconversations' },
+                edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall | searchreplace' },
+                view: { title: 'View', items: 'code | visualaid visualchars visualblocks | spellchecker | preview fullscreen | showcomments' },
+                insert: { title: 'Insert', items: 'image link media addpagebreak inserttable | charmap emoticons hr | pagebreak nonbreaking anchor tableofcontents | insertdatetime' },
+                format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | formats blocks fontsize align lineheight | forecolor backcolor | language | removeformat' },
+                tools: { title: 'Tools', items: 'spellchecker spellcheckerlanguage | a11ycheck code wordcount' },
+                table: { title: 'Table', items: 'inserttable | cell row column | advtablesort | tableprops deletetable' },
+                help: { title: 'Help', items: 'help' }
+            },
+            content_style: 'body { font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,sans-serif; font-size:16px; line-height:1.6; color:#1c1c1f; } h1,h2,h3,h4,h5,h6 { color:#666A10; margin-bottom:16px; } p { margin-bottom:16px; }',
+            branding: false,
+            promotion: false
+        });
+
+        // Handle blog post update
+        document.getElementById('editBlogForm').addEventListener('submit', function(e) {
+            // Update the textarea with TinyMCE content
+            tinymce.triggerSave();
+        });
+    </script>
 </body>
 </html>
