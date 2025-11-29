@@ -8,7 +8,7 @@
   --bg-card: #ffffff;
   --text-main: #1c1c1f; /* charcoal */
   --text-muted: #6c6a72;
-  --accent: #666A10; /* subtle girly pink */
+  --accent: #4c6b56; /* subtle girly pink */
   --accent-soft: #f8e0ea;
   --border-subtle: #e0ddd5;
   --shadow-soft: 0 18px 40px rgba(12, 8, 4, 0.1);
@@ -102,7 +102,7 @@ main {
 }
 
 .btn.primary:hover {
-  background-color: #666A10;
+  background-color: #4c6b56;
   transform: translateY(-1px);
 }
 
@@ -304,7 +304,7 @@ main {
 }
 
 .hero-highlight {
-  background: linear-gradient(90deg, var(--accent), #666A10);
+  background: linear-gradient(90deg, var(--accent), #4c6b56);
   -webkit-background-clip: text;
   color: transparent;
 }
@@ -339,7 +339,7 @@ main {
   padding: 5px 10px;
   border-radius: 999px;
   background-color: var(--accent-soft);
-  color: #666A10;
+  color: #4c6b56;
   font-weight: 500;
 }
 
