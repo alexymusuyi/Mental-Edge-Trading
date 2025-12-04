@@ -59,7 +59,7 @@ $popular_posts = $stmt->fetchAll();
       }
 
       .blog-category-tabs button.is-active {
-        color: #666A10;
+        color: #43523d;
       }
 
       .blog-category-tabs button.is-active::after {
@@ -69,7 +69,7 @@ $popular_posts = $stmt->fetchAll();
         right: 0;
         bottom: -10px;
         height: 2px;
-        background: #666A10;
+        background: #43523d;
       }
 
       .blog-entry-list {
@@ -341,7 +341,7 @@ $popular_posts = $stmt->fetchAll();
                                     <?php if ($post['featured_image']): ?>
                                     <div class="blog-thumb" style="background-image: url('<?php echo htmlspecialchars($post['featured_image']); ?>')"></div>
                                     <?php else: ?>
-                                    <div class="blog-thumb" style="background: linear-gradient(135deg, #666A10, #8b8b8b)"></div>
+                                    <div class="blog-thumb" style="background: linear-gradient(135deg, #43523d, #8b8b8b)"></div>
                                     <?php endif; ?>
                                     
                                     <div class="blog-content">

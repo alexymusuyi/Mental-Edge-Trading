@@ -33,7 +33,7 @@ $analytics['popular_posts'] = $stmt->fetchAll();
             --bg-card: #ffffff;
             --text-main: #1c1c1f;
             --text-muted: #6c6a72;
-            --accent: #666A10;
+            --accent: #43523d;
             --accent-soft: #f8e0ea;
             --border-subtle: #e0ddd5;
             --shadow-soft: 0 18px 40px rgba(12, 8, 4, 0.1);
@@ -420,7 +420,7 @@ $analytics['popular_posts'] = $stmt->fetchAll();
             datasets: [{
                 label: 'Page Views',
                 data: [120, 135, 148, 162, 178, 195, 210, 225, 240, 255, 270, 285, 300, 315, 330, 345, 360, 375, 390, 405, 420, 435, 450, 465, 480, 495, 510, 525, 540, 555],
-                borderColor: '#666A10',
+                borderColor: '#43523d',
                 backgroundColor: 'rgba(102, 106, 16, 0.1)',
                 tension: 0.4,
                 fill: true
@@ -469,7 +469,7 @@ $analytics['popular_posts'] = $stmt->fetchAll();
                 datasets: [{
                     data: [1250, 980, 850, 720, 650],
                     backgroundColor: [
-                        '#666A10',
+                        '#43523d',
                         '#6c6a72',
                         '#8b8b8b',
                         '#a5a5a5',

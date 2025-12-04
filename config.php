@@ -18,11 +18,6 @@ define('TEST_USER_PASSWORD_HASH', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.o
 // Session Configuration
 session_start();
 
-// Demo/Live Mode Configuration
-if (!isset($_SESSION['demo_mode'])) {
-    $_SESSION['demo_mode'] = true; // Default to demo mode
-}
-
 // Database Connection
 try {
     $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);

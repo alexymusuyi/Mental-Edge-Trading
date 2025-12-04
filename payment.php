@@ -36,7 +36,7 @@ $order_id = 'ORDER_' . time() . '_' . $user['id'];
             --bg-card: #ffffff;
             --text-main: #1c1c1f;
             --text-muted: #6c6a72;
-            --accent: #666A10;
+            --accent: #43523d;
             --accent-soft: #f8e0ea;
             --border-subtle: #e0ddd5;
             --shadow-soft: 0 18px 40px rgba(12, 8, 4, 0.1);

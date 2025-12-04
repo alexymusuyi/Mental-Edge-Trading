@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_post'])) {
             --bg-card: #ffffff;
             --text-main: #1c1c1f;
             --text-muted: #6c6a72;
-            --accent: #666A10;
+            --accent: #43523d;
             --accent-soft: #f8e0ea;
             --border-subtle: #e0ddd5;
             --shadow-soft: 0 18px 40px rgba(12, 8, 4, 0.1);
@@ -459,7 +459,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_post'])) {
                 table: { title: 'Table', items: 'inserttable | cell row column | advtablesort | tableprops deletetable' },
                 help: { title: 'Help', items: 'help' }
             },
-            content_style: 'body { font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,sans-serif; font-size:16px; line-height:1.6; color:#1c1c1f; } h1,h2,h3,h4,h5,h6 { color:#666A10; margin-bottom:16px; } p { margin-bottom:16px; }',
+            content_style: 'body { font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,sans-serif; font-size:16px; line-height:1.6; color:#1c1c1f; } h1,h2,h3,h4,h5,h6 { color:#43523d; margin-bottom:16px; } p { margin-bottom:16px; }',
             branding: false,
             promotion: false
         });
